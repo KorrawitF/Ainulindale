@@ -3,6 +3,9 @@ Required
  |-c++ >=20 compiler
  |-cmake
 
+# Reference Docs
+> https://docs.discord.com/developers/game-development/how-to-add-proximity-voice-chat-to-your-game#1-players-join-a-lobby
+
 *** SDK Initialize ***
 
 > ## Documentation Index
