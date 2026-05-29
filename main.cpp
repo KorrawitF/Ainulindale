@@ -8,8 +8,6 @@
 #include <csignal>
 #include <iostream>
 
-// Replace with your Discord Application ID
-const uint64_t APPLICATION_ID = 1509062387863392256;
 
 // Create a flag to stop the application
 std::atomic<bool> running = true;
@@ -45,10 +43,10 @@ int main() {
   auto codeVerifier = client->CreateAuthorizationCodeVerifier();
 
   // Set up authentication arguments
-  discordpp::AuthorizationArgs args{};
-  args.SetClientId(APPLICATION_ID);
-  args.SetScopes(discordpp::Client::GetDefaultPresenceScopes());
-  args.SetCodeChallenge(codeVerifier.Challenge());
+  // discordpp::AuthorizationArgs args{};
+  // args.SetClientId(APPLICATION_ID);
+  // args.SetScopes(discordpp::Client::GetDefaultPresenceScopes());
+  // args.SetCodeChallenge(codeVerifier.Challenge());
 
   // Keep application running to allow SDK to receive events and callbacks
   while (running) {

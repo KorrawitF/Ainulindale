@@ -11,7 +11,7 @@ class Lobby {
 
     public:
         Lobby(std::shared_ptr<discordpp::Client> Client, config::LobbyConfig Cfg);
-        void createOrJoint(std::shared_ptr<discordpp::Client> Client);
+        void createOrJoint();
         void LeaveLobby(uint64_t lobbyId);
 };
 
