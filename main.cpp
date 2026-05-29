@@ -50,7 +50,7 @@ int main() {
       std::shared_ptr<discordpp::Client> Client = client; 
       Lobby lobby(&Client, cfg.lobbyConfig);
       lobby.createOrJoint();
-      
+
     } else if (error != discordpp::Client::Error::None) {
       std::cerr << "❌ Connection Error: " << discordpp::Client::ErrorToString(error) << " - Details: " << errorDetail << std::endl;
     }
