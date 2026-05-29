@@ -9,12 +9,11 @@ Lobby::Lobby(std::shared_ptr<discordpp::Client> *Client, config::LobbyConfig Cfg
 
 // Create or join a lobby from the client
 void Lobby::createOrJoint() {
-    client->CreateOrJoinLobby(cfg.lobby_secret, [*this](discordpp::ClientResult result, uint64_t lobbyId) {
+    client->CreateOrJoinLobby(cfg.lobby_secret, [this](discordpp::ClientResult result, uint64_t lobbyId) {
         if(result.Successful()) {
-            std::shared_ptr<discordpp::Client> Client = client;
             std::cout << "🎮 Lobby created or joined successfully! Lobby Id: " << lobbyId << std::endl;
-            Voice voice(&Client);
-            voice.Call(lobbyId);
+            voice = std::make_shared<Voice>(&client);
+            voice->Call(lobbyId);
         } else {
             std::cerr << "❌ Lobby creation/join failed\n";
         }

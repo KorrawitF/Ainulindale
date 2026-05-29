@@ -40,16 +40,16 @@ int main() {
     std::cout << "[" << EnumToString(severity) << "] " << message << std::endl;
   }, discordpp::LoggingSeverity::Info);
 
-  client->SetStatusChangedCallback([client, cfg](discordpp::Client::Status status, discordpp::Client::Error error, int32_t errorDetail) {
+  auto lobby = std::make_shared<Lobby>(&client, cfg.lobbyConfig);
+
+  client->SetStatusChangedCallback([client, lobby](discordpp::Client::Status status, discordpp::Client::Error error, int32_t errorDetail) {
     std::cout << "🔄 Status changed: " << discordpp::Client::StatusToString(status) << std::endl;
 
     if (status == discordpp::Client::Status::Ready) {
       std::cout << "✅ Client is ready! You can now call SDK functions.\n";
       std::cout << "👥 Friends Count: " << client->GetRelationships().size() << std::endl;
 
-      std::shared_ptr<discordpp::Client> Client = client; 
-      Lobby lobby(&Client, cfg.lobbyConfig);
-      lobby.createOrJoint();
+      lobby->createOrJoint();
 
     } else if (error != discordpp::Client::Error::None) {
       std::cerr << "❌ Connection Error: " << discordpp::Client::ErrorToString(error) << " - Details: " << errorDetail << std::endl;
