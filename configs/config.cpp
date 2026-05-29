@@ -15,7 +15,8 @@ bool config::load_config_file(config::AppConfig &appConfig) {
         return false;
     }
 
-    appConfig.lobbyConfig.lobby_secret = secret;
+    std::string Secret(secret);
+    appConfig.lobbyConfig.lobby_secret = Secret;
     appConfig.application_id = strtoull(app_id, nullptr, 10);
     return true;
 }
