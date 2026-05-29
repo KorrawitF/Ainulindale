@@ -4,7 +4,13 @@ project(DiscordSDKExample)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_executable(DiscordSDKExample main.cpp)
+add_executable(DiscordSDKExample
+    main.cpp
+    configs/config.cpp
+    services/auth/auth.cpp
+    services/lobby/lobby.cpp
+    services/voice/voice.cpp
+)
 
 # Define some handy Social SDK variables
 set(DISCORD_SDK_ROOT "${CMAKE_SOURCE_DIR}/lib/discord_social_sdk")
@@ -12,8 +18,14 @@ set(DISCORD_SDK_LIB_DIR "${DISCORD_SDK_ROOT}/lib/release")
 set(DISCORD_SDK_BIN_DIR "${DISCORD_SDK_ROOT}/bin/release")
 set(DISCORD_SDK_INCLUDE_DIR "${DISCORD_SDK_ROOT}/include")
 
-# Include for Social SDK headers
-target_include_directories(DiscordSDKExample PRIVATE ${DISCORD_SDK_INCLUDE_DIR})
+# Include for Social SDK headers and local project headers
+target_include_directories(DiscordSDKExample PRIVATE
+    ${DISCORD_SDK_INCLUDE_DIR}
+    ${CMAKE_SOURCE_DIR}/configs
+    ${CMAKE_SOURCE_DIR}/services/auth
+    ${CMAKE_SOURCE_DIR}/services/lobby
+    ${CMAKE_SOURCE_DIR}/services/voice
+)
 
 # Platform-specific Social SDK library paths
 if(WIN32)
