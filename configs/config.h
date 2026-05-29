@@ -8,12 +8,13 @@ namespace config
 {
     extern struct AppConfig {
         uint64_t application_id;
+        LobbyConfig lobbyConfig;
     };
-    extern struct LobbyConfig {
+    struct LobbyConfig {
         std::string lobby_secret;
     };
 
-    bool load_config_file(LobbyConfig &lobbyConfig, AppConfig &appConfig);
+    bool load_config_file(AppConfig &appConfig);
 }
 
 #endif

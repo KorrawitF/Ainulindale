@@ -24,8 +24,7 @@ int main() {
   std::cout << "🚀 Initializing Discord SDK...\n";
 
   auto cfg = config::AppConfig{};
-  auto lobbyCfg = config::LobbyConfig{};
-  if (!config::load_config_file(lobbyCfg, cfg)) {
+  if (!config::load_config_file(cfg)) {
     std::cerr << "Failed to load config from env" << std::endl;
     std::abort();
   }
