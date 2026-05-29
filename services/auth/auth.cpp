@@ -2,7 +2,7 @@
 #include "discordpp.h"
 #include <iostream>
 
-Auth::Auth(std::shared_ptr<discordpp::Client> Client, config::AppConfig Cfg) : client(Client), cfg(Cfg), codeVerifier(client->CreateAuthorizationCodeVerifier()) {
+Auth::Auth(std::shared_ptr<discordpp::Client> *Client, config::AppConfig Cfg) : client(*Client), cfg(Cfg), codeVerifier(client->CreateAuthorizationCodeVerifier()) {
     args.SetClientId(cfg.application_id);
     args.SetScopes(discordpp::Client::GetDefaultPresenceScopes());
     args.SetCodeChallenge(codeVerifier.Challenge());

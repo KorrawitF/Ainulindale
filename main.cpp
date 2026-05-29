@@ -23,8 +23,18 @@ int main() {
   std::signal(SIGINT, signalHandler);
   std::cout << "🚀 Initializing Discord SDK...\n";
 
+  auto cfg = config::AppConfig{};
+  auto lobbyCfg = config::LobbyConfig{};
+  if (!config::load_config_file(lobbyCfg, cfg)) {
+    std::cerr << "Failed to load config from env" << std::endl;
+    std::abort();
+  }
+
   // Create our Discord Client
   auto client = std::make_shared<discordpp::Client>();
+
+  Auth auth(&client, cfg);
+  auth.Authorize();
 
   client->AddLogCallback([](auto message, auto severity) {
     std::cout << "[" << EnumToString(severity) << "] " << message << std::endl;
@@ -40,15 +50,6 @@ int main() {
       std::cerr << "❌ Connection Error: " << discordpp::Client::ErrorToString(error) << " - Details: " << errorDetail << std::endl;
     }
   });
-
-  // Generate OAuth2 code verifier for authentication
-  auto codeVerifier = client->CreateAuthorizationCodeVerifier();
-
-  // Set up authentication arguments
-  // discordpp::AuthorizationArgs args{};
-  // args.SetClientId(APPLICATION_ID);
-  // args.SetScopes(discordpp::Client::GetDefaultPresenceScopes());
-  // args.SetCodeChallenge(codeVerifier.Challenge());
 
   // Keep application running to allow SDK to receive events and callbacks
   while (running) {
