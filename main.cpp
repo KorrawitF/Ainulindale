@@ -7,6 +7,8 @@
 #include <functional>
 #include <csignal>
 #include <iostream>
+#include <config.h>
+#include <auth.h>
 
 
 // Create a flag to stop the application

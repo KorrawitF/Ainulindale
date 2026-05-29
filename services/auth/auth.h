@@ -8,11 +8,12 @@ class Auth {
     private:
         std::shared_ptr<discordpp::Client> client;
         config::AppConfig cfg;
-        discordpp::AuthorizationCodeVerifier codeVerifier = client->CreateAuthorizationCodeVerifier();
+        discordpp::AuthorizationArgs args;
+        discordpp::AuthorizationCodeVerifier codeVerifier;
     
     public:
         Auth(std::shared_ptr<discordpp::Client> Client, config::AppConfig Cfg);
-        void Authorize(discordpp::AuthorizationArgs args);
+        void Authorize();
 };
 
 

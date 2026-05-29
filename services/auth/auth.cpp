@@ -2,9 +2,13 @@
 #include "discordpp.h"
 #include <iostream>
 
-Auth::Auth(std::shared_ptr<discordpp::Client> Client, config::AppConfig Cfg) : client(Client), cfg(Cfg) {}
+Auth::Auth(std::shared_ptr<discordpp::Client> Client, config::AppConfig Cfg) : client(Client), cfg(Cfg), codeVerifier(client->CreateAuthorizationCodeVerifier()) {
+    args.SetClientId(cfg.application_id);
+    args.SetScopes(discordpp::Client::GetDefaultPresenceScopes());
+    args.SetCodeChallenge(codeVerifier.Challenge());
+}
 
-void Auth::Authorize(discordpp::AuthorizationArgs args) {
+void Auth::Authorize() {
     client->Authorize(args, [*this](discordpp::ClientResult result, std::string code, std::string redirectUri) {
         if (!result.Successful()) {
             std::cerr << "❌ Authentication Error: " << result.Error() << std::endl;
