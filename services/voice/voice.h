@@ -8,7 +8,7 @@ class Voice {
         std::shared_ptr<discordpp::Client> client;
 
     public:
-        Voice(std::shared_ptr<discordpp::Client> client);
+        Voice(std::shared_ptr<discordpp::Client> *client);
 
 };
 

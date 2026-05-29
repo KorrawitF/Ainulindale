@@ -4,7 +4,7 @@
 #include "lobby.h"
 
 
-Lobby::Lobby(std::shared_ptr<discordpp::Client> Client, config::LobbyConfig Cfg) : client(Client), cfg(Cfg) {}
+Lobby::Lobby(std::shared_ptr<discordpp::Client> *Client, config::LobbyConfig Cfg) : client(*Client), cfg(Cfg) {}
 
 // Create or join a lobby from the client
 void Lobby::createOrJoint() {
