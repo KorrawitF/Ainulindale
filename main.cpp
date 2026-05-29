@@ -50,35 +50,6 @@ int main() {
   args.SetScopes(discordpp::Client::GetDefaultPresenceScopes());
   args.SetCodeChallenge(codeVerifier.Challenge());
 
-  // Begin authentication process
-  client->Authorize(args, [client, codeVerifier](auto result, auto code, auto redirectUri) {
-    if (!result.Successful()) {
-      std::cerr << "❌ Authentication Error: " << result.Error() << std::endl;
-      return;
-    } else {
-      std::cout << "✅ Authorization successful! Getting access token...\n";
-
-      // Exchange auth code for access token
-      client->GetToken(APPLICATION_ID, code, codeVerifier.Verifier(), redirectUri,
-        [client](discordpp::ClientResult result,
-        std::string accessToken,
-        std::string refreshToken,
-        discordpp::AuthorizationTokenType tokenType,
-        int32_t expiresIn,
-        std::string scope) {
-          // Next Step: Update the token and connect
-          client->UpdateToken(discordpp::AuthorizationTokenType::Bearer,  accessToken, [client](discordpp::ClientResult result) {
-            if(result.Successful()) {
-              std::cout << "🔑 Token updated, connecting to Discord...\n";
-              client->Connect();
-            }
-          });
-          std::cout << "🔓 Access token received! Establishing connection...\n";
-          // Next Step: Update the token and connect
-      });
-    }
-  });
-
   // Keep application running to allow SDK to receive events and callbacks
   while (running) {
     discordpp::RunCallbacks();
