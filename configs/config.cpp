@@ -2,13 +2,20 @@
 #include <cstdlib>
 #include <config.h>
 
-bool config::load_config_file(config::LobbyConfig &lobbyConfig) {
+bool config::load_config_file(config::LobbyConfig &lobbyConfig, config::AppConfig &appConfig) {
     const char* secret = std::getenv("LOBBY_SECRET");
     if (!secret || secret[0] == '\0') {
         std::cout << "Lobby secret env not found" << std::endl;
         return false;
     }
 
+    const char* app_id = std::getenv("APPLICATION_ID");
+    if (!app_id || app_id[0] == '\0') {
+        std::cout << "Application id env not found" << std::endl;
+        return false;
+    }
+
     lobbyConfig.lobby_secret = secret;
+    appConfig.application_id = atoi(app_id);
     return true;
 }
