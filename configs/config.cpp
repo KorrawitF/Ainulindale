@@ -16,6 +16,6 @@ bool config::load_config_file(config::AppConfig &appConfig) {
     }
 
     appConfig.lobbyConfig.lobby_secret = secret;
-    appConfig.application_id = atoi(app_id);
+    appConfig.application_id = strtoull(app_id, nullptr, 10);
     return true;
 }

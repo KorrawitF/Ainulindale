@@ -23,7 +23,7 @@ int main() {
   std::signal(SIGINT, signalHandler);
   std::cout << "🚀 Initializing Discord SDK...\n";
 
-  auto cfg = config::AppConfig{};
+  config::AppConfig cfg;
   if (!config::load_config_file(cfg)) {
     std::cerr << "Failed to load config from env" << std::endl;
     std::abort();
