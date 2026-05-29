@@ -1,0 +1,28 @@
+#include <iostream>
+#include "discordpp.h"
+#include "config.h"
+#include "lobby.h"
+
+
+Lobby::Lobby(std::shared_ptr<discordpp::Client> Client, config::LobbyConfig Cfg) : client(Client), cfg(Cfg) {}
+
+// Create or join a lobby from the client
+void Lobby::createOrJoint(std::shared_ptr<discordpp::Client> Client) {
+    client->CreateOrJoinLobby(cfg.lobby_secret, [Client](discordpp::ClientResult result, uint64_t lobbyId) {
+        if(result.Successful()) {
+            std::cout << "🎮 Lobby created or joined successfully! Lobby Id: " << lobbyId << std::endl;
+        } else {
+            std::cerr << "❌ Lobby creation/join failed\n";
+        }
+    });
+};
+
+void Lobby::LeaveLobby(uint64_t lobbyId) {
+    client->LeaveLobby(lobbyId, [&](discordpp::ClientResult result) {
+        if(result.Successful()) {
+            std::cout << "🎮 Left lobby successfully! Lobby Id: " << lobbyId << std::endl;
+        } else {
+            std::cerr << "❌ Leaving lobby failed\n";
+        }
+    });
+};
