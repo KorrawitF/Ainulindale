@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
-project(DiscordSDKExample)
+project(Ainulindale)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_executable(DiscordSDKExample
+add_executable(Ainulindale
     main.cpp
     configs/config.cpp
     services/auth/auth.cpp
@@ -20,7 +20,7 @@ set(DISCORD_SDK_BIN_DIR "${DISCORD_SDK_ROOT}/bin/release")
 set(DISCORD_SDK_INCLUDE_DIR "${DISCORD_SDK_ROOT}/include")
 
 # Include for Social SDK headers and local project headers
-target_include_directories(DiscordSDKExample PRIVATE
+target_include_directories(Ainulindale PRIVATE
     ${DISCORD_SDK_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/configs
     ${CMAKE_SOURCE_DIR}/services/auth
@@ -42,7 +42,7 @@ else() # Linux
 endif()
 
 # Link the Social SDK library
-target_link_libraries(DiscordSDKExample PRIVATE ${DISCORD_LIB_PATH})
+target_link_libraries(Ainulindale PRIVATE ${DISCORD_LIB_PATH})
 
 # Set the runtime search path (RPATH) for Linux and macOS
 if(UNIX)
@@ -56,8 +56,8 @@ if(UNIX)
 endif()
 
 # Copy Social SDK shared library to output directory, so it's available at runtime.
-add_custom_command(TARGET DiscordSDKExample POST_BUILD
+add_custom_command(TARGET Ainulindale POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
     "${DISCORD_SHARED_LIB}"
-    $<TARGET_FILE_DIR:DiscordSDKExample>
+    $<TARGET_FILE_DIR:Ainulindale>
 )
