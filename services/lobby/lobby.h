@@ -15,6 +15,7 @@ class Lobby {
     public:
         Lobby(std::shared_ptr<discordpp::Client> *Client, config::LobbyConfig Cfg);
         void createOrJoint();
+        void JoinWithSecret(const std::string& joinSecret);
         void LeaveLobby(uint64_t lobbyId);
 };
 

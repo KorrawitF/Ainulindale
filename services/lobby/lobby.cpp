@@ -20,6 +20,18 @@ void Lobby::createOrJoint() {
     });
 };
 
+void Lobby::JoinWithSecret(const std::string& joinSecret) {
+    client->CreateOrJoinLobby(joinSecret, [this](discordpp::ClientResult result, uint64_t lobbyId) {
+        if (result.Successful()) {
+            std::cout << "🎮 Joined lobby from invite! Lobby Id: " << lobbyId << std::endl;
+            voice = std::make_shared<Voice>(&client);
+            voice->Call(lobbyId);
+        } else {
+            std::cerr << "❌ Failed to join lobby from invite\n";
+        }
+    });
+}
+
 void Lobby::LeaveLobby(uint64_t lobbyId) {
     client->LeaveLobby(lobbyId, [&](discordpp::ClientResult result) {
         if(result.Successful()) {
