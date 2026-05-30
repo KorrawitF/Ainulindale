@@ -10,6 +10,7 @@ add_executable(DiscordSDKExample
     services/auth/auth.cpp
     services/lobby/lobby.cpp
     services/voice/voice.cpp
+    services/friend/friend.cpp
 )
 
 # Define some handy Social SDK variables
@@ -25,6 +26,7 @@ target_include_directories(DiscordSDKExample PRIVATE
     ${CMAKE_SOURCE_DIR}/services/auth
     ${CMAKE_SOURCE_DIR}/services/lobby
     ${CMAKE_SOURCE_DIR}/services/voice
+    ${CMAKE_SOURCE_DIR}/services/friend
 )
 
 # Platform-specific Social SDK library paths
