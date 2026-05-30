@@ -5,16 +5,12 @@
 
 Friend::Friend(std::shared_ptr<discordpp::Client> *Client) : client(*Client) {}
 
-bool Friend::SendInvite(uint64_t userId, const std::string &message) const {
-    bool ret;
-    client->SendActivityInvite(userId, message, [&ret](discordpp::ClientResult result) {
+void Friend::SendInvite(uint64_t userId, const std::string &message) const {
+    client->SendActivityInvite(userId, message, [](discordpp::ClientResult result) {
         if (result.Successful()) {
-            std::cout << "Invitation sent successfully." << std::endl;
-            ret = true;
+            std::cout << "✅ Invitation sent successfully." << std::endl;
         } else {
-            std::cout << "Failed to send invitation, err: " + result.Error() << std::endl;
-            ret = false;
-        } 
+            std::cerr << "❌ Failed to send invitation: " << result.Error() << std::endl;
+        }
     });
-    return ret;
 }
