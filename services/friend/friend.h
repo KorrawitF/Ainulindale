@@ -9,7 +9,7 @@ class Friend {
         std::shared_ptr<discordpp::Client> client;
     public:
         Friend(std::shared_ptr<discordpp::Client> *Client);
-        bool SendInvite(uint64_t userId, const std::string &message);
+        bool SendInvite(uint64_t userId, const std::string &message) const;
 
 };
 

@@ -11,6 +11,7 @@ add_executable(Ainulindale
     services/lobby/lobby.cpp
     services/voice/voice.cpp
     services/friend/friend.cpp
+    services/activity/activity.cpp
 )
 
 # Define some handy Social SDK variables
@@ -27,6 +28,7 @@ target_include_directories(Ainulindale PRIVATE
     ${CMAKE_SOURCE_DIR}/services/lobby
     ${CMAKE_SOURCE_DIR}/services/voice
     ${CMAKE_SOURCE_DIR}/services/friend
+    ${CMAKE_SOURCE_DIR}/services/activity
 )
 
 # Platform-specific Social SDK library paths
