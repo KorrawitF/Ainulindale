@@ -11,10 +11,21 @@ Activity::Activity(discordpp::Activity *Activity, discordpp::ActivityParty *Part
     party.SetMaxSize(5);  
     activity.SetParty(party);
 
-    secrets.SetJoin("joinsecret1234"); 
     activity.SetSecrets(secrets);
 
-    activity.SetSupportedPlatforms(discordpp::ActivityGamePlatforms::Desktop);
+    using P = discordpp::ActivityGamePlatforms;
+    activity.SetSupportedPlatforms(static_cast<P>(
+        static_cast<int>(P::Desktop)  |
+        static_cast<int>(P::IOS)      |
+        static_cast<int>(P::Android)  |
+        static_cast<int>(P::Embedded) |   // covers web/browser clients
+        static_cast<int>(P::Samsung)
+    ));
+}
+
+void Activity::SetJoinSecret(const std::string& secret) {
+    secrets.SetJoin(secret);
+    activity.SetSecrets(secrets);
 }
 
 discordpp::Activity Activity::GetActivity() const

@@ -39,6 +39,7 @@ int main() {
   discordpp::ActivityParty party;
   discordpp::ActivitySecrets secrets;
   Activity act(&activity, &party, &secrets);
+  act.SetJoinSecret(cfg.lobbyConfig.lobby_secret);  // friends who accept the invite join this lobby
 
   Friend friendService(&client);
 
@@ -58,21 +59,37 @@ int main() {
       std::cout << "✅ Client is ready! You can now call SDK functions.\n";
       std::cout << "👥 Friends Count: " << client->GetRelationships().size() << std::endl;
       
-      client->UpdateRichPresence(act.GetActivity(), [](discordpp::ClientResult result) {
-        if (result.Successful()) {
-          std::cout << "✅ Rich presence updated!\n";
-        }
-      });
-
       lobby->createOrJoint();
 
-      if (!friendService.SendInvite(300525004951388161, "TESTING")) {
-        return;
-      }
+      client->UpdateRichPresence(act.GetActivity(), [friendService](discordpp::ClientResult result) {
+        if (!result.Successful()) return;
+        std::cout << "✅ Rich presence updated!\n";
+        friendService.SendInvite(689867889305452755, "TESTING");
+      });
       
     } else if (error != discordpp::Client::Error::None) {
       std::cerr << "❌ Connection Error: " << discordpp::Client::ErrorToString(error) << " - Details: " << errorDetail << std::endl;
     }
+  });
+
+  // Recipient clicks "Join" in Discord while the game is already running,
+  // OR Discord launches this binary via RegisterLaunchCommand and passes the secret.
+  client->SetActivityJoinCallback([lobby](std::string joinSecret) {
+    std::cout << "🎮 Join triggered from Discord — joining lobby...\n";
+    lobby->JoinWithSecret(joinSecret);
+  });
+
+  // When this client receives an activity invite, auto-accept and join the lobby.
+  client->SetActivityInviteCreatedCallback([client, lobby](discordpp::ActivityInvite invite) {
+    std::cout << "📨 Activity invite received! Accepting...\n";
+    client->AcceptActivityInvite(invite, [lobby](discordpp::ClientResult result, std::string joinSecret) {
+      if (!result.Successful()) {
+        std::cerr << "❌ Failed to accept invite: " << result.Error() << std::endl;
+        return;
+      }
+      std::cout << "✅ Invite accepted! Joining lobby...\n";
+      lobby->JoinWithSecret(joinSecret);
+    });
   });
 
   // Keep application running to allow SDK to receive events and callbacks

@@ -10,6 +10,7 @@ class Activity {
         discordpp::ActivitySecrets secrets;
     public:
         Activity(discordpp::Activity *Activity, discordpp::ActivityParty *Party, discordpp::ActivitySecrets *Secrets);
+        void SetJoinSecret(const std::string& secret);
         discordpp::Activity GetActivity() const;
 };
 
