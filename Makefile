@@ -18,3 +18,6 @@ compile:
 
 run:
 	./$(EXEC_PATH)
+
+run-server:
+	./build/AinulinServer

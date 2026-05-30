@@ -4,6 +4,9 @@ project(Ainulindale)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# ---------------------------------------------------------------------------
+# Game client — Ainulindale
+# ---------------------------------------------------------------------------
 add_executable(Ainulindale
     main.cpp
     configs/config.cpp
@@ -12,6 +15,8 @@ add_executable(Ainulindale
     services/voice/voice.cpp
     services/friend/friend.cpp
     services/activity/activity.cpp
+    services/provisional_auth/provisional_auth.cpp
+    services/session/session.cpp
 )
 
 # Define some handy Social SDK variables
@@ -29,6 +34,8 @@ target_include_directories(Ainulindale PRIVATE
     ${CMAKE_SOURCE_DIR}/services/voice
     ${CMAKE_SOURCE_DIR}/services/friend
     ${CMAKE_SOURCE_DIR}/services/activity
+    ${CMAKE_SOURCE_DIR}/services/provisional_auth
+    ${CMAKE_SOURCE_DIR}/services/session
 )
 
 # Platform-specific Social SDK library paths
@@ -63,3 +70,24 @@ add_custom_command(TARGET Ainulindale POST_BUILD
     "${DISCORD_SHARED_LIB}"
     $<TARGET_FILE_DIR:Ainulindale>
 )
+
+# ---------------------------------------------------------------------------
+# Game server — AinulinServer (requires libcurl for Discord REST calls)
+# ---------------------------------------------------------------------------
+find_package(CURL)
+if(CURL_FOUND)
+    add_executable(AinulinServer
+        server/main.cpp
+        server/session_manager.cpp
+        server/discord_token_service.cpp
+        configs/config.cpp
+    )
+    target_include_directories(AinulinServer PRIVATE
+        ${CMAKE_SOURCE_DIR}/configs
+        ${CMAKE_SOURCE_DIR}/server
+    )
+    target_link_libraries(AinulinServer PRIVATE CURL::libcurl)
+    message(STATUS "curl found — AinulinServer will be built")
+else()
+    message(STATUS "curl not found — skipping AinulinServer (install libcurl to enable)")
+endif()
